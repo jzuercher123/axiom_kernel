@@ -1,0 +1,33 @@
+# Axiom Kernel — Reference Space Domain Awareness (SDA) Node Manifest
+# Static physical & calibration metadata bound to sensor_id for downstream AI agents.
+
+node:
+  id: "sda.node_01"
+  location: "synthetic-bench"
+  transport:
+    type: "zmq_pub"
+    endpoint: "tcp://127.0.0.1:5555"
+    topic: "sda.node_01"
+    sndhwm: 1000
+
+provenance:
+  algorithm: "ECDSA-P256-SHA256"
+  backend: "openssl_software"   # swap to "atecc608a_i2c" on field Raspberry Pi
+
+sensors:
+  - sensor_id: 1
+    name: "synthetic_optical_imager"
+    physical_domain: "optical_sda"
+    dtype: "UInt8"
+    shape: [64, 64]
+    axes:
+      - name: "pixel_y"
+        units: "pixels"
+      - name: "pixel_x"
+        units: "pixels"
+    value_units: "adu_8bit"
+    gating:
+      type: "bayesian_kl"
+      kl_threshold_nats: 0.05
+      bg_mean: 20.0
+      bg_stddev: 4.0
