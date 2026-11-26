@@ -1,0 +1,39 @@
+# Axiom Kernel: Fleet Commander Configuration
+# ---------------------------------------------------------
+# Define the theoretical boundaries and active agents for the
+# Mixture of Experts (MoE) ZeroMQ subscriber fleet.
+
+orchestrator:
+  ipc_bus: "tcp://localhost:5555"
+  log_level: "INFO"
+
+fleet:
+  kinematic_observer:
+    enabled: true
+    description: "Neural ODE predicting time-series evolution"
+    script: "src/agents/agent_kinematics.py"
+    constraints:
+      extrapolate_frames: 120
+
+  mathematician:
+    enabled: true
+    description: "SINDy Symbolic Regressor extracting governing equations"
+    script: "src/agents/agent_mathematician.py"
+    constraints:
+      conserve_energy: true
+      coordinate_system: "cartesian"
+      sparsity_threshold: 0.05
+
+  theorist:
+    enabled: false # Physicist can toggle to true when ready
+    description: "LLM cross-referencing arXiv for theoretical validation"
+    script: "src/agents/agent_theorist.py"
+    constraints:
+      domain_focus: "non-euclidean geometry"
+      max_papers_referenced: 5
+
+  scribe:
+    enabled: true
+    description: "Auto-compiles FITS data and MoE consensus into LaTeX"
+    script: "src/agents/agent_scribe.py"
+    output_dir: "data/output_papers"

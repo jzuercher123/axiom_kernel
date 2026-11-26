@@ -1,0 +1,8 @@
+sensor:
+  device: 0 # Use 0 for laptop webcam, or path to mock video (e.g., "data/input_mock/test.mp4")
+  width: 640
+  height: 480
+  fps_cap: 30
+ipc:
+  pub_address: "tcp://*:5555"
+  sub_address: "tcp://localhost:5555"
